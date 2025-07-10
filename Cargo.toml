@@ -1,0 +1,24 @@
+[package]
+name = "cargo-assemble"
+version = "0.1.0"
+edition = "2021"
+description = "Cargo subcommand to create missing packages defined in a Cargo workspace"
+
+keywords = ["cargo", "workspace", "scaffold", "cli"]
+categories = ["development-tools::cargo-plugins"]
+
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/serialexperimentsrio/cargo-assemble"
+homepage = "https://github.com/serialexperimentsrio/cargo-assemble"
+
+[[bin]]
+name = "cargo-assemble"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1.0.98"
+clap = { version = "4.5.39", features = ["cargo", "derive"] }
+colored = "3.0.0"
+serde = { version = "1.0.219", features = ["derive"] }
+toml = "0.9.0"
