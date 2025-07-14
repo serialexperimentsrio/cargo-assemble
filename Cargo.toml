@@ -1,16 +1,18 @@
 [package]
 name = "cargo-assemble"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
-description = "Cargo plugin to automate creating missing packages defined in a Cargo workspace"
+description = "Cargo plugin to automate creating missing packages defined in a Rust workspace"
 
 keywords = ["cargo", "workspace", "generator", "automation"]
-categories = ["development-tools::cargo-plugins"]
+categories = [
+    "development-tools::cargo-plugins",
+    "command-line-utilities"
+]
 
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/serialexperimentsrio/cargo-assemble"
-homepage = "https://github.com/serialexperimentsrio/cargo-assemble"
 
 [[bin]]
 name = "cargo-assemble"

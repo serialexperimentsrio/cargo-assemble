@@ -1,47 +1,55 @@
 # cargo-assemble
 
-`cargo-assemble` reads a workspace's `Cargo.toml` file and creates missing member packages that are listed but don't exist in the workspace root. It supports creating both `bin` or `lib` packages depending on the user's preferences.
+It's yet another day, and you list the members you want in the `Cargo.toml` file of your Rust workspace. Then you suddenly realize, you're stuck running `cargo new` for each missing member package.
+*You sigh.*
 
-## Usage
-
-By default, `cargo-assemble` creates members as binary packages. However, the type of package to be created can be controlled using the respective flags.
-
-For example, this command via `--lib` (or `-l`) creates `member-1` and `member-2` as library crates, but the rest of the listed members as binary ones:
-
-```sh
-cargo assemble --lib member-1 member-2
-```
-
-On the other hand, if `--bin` (or `-b`) is explicitly specified, it creates binary crates for those members, but the rest default to library ones:
-
-```sh
-cargo assemble --bin member-3 member-4
-```
-
-This makes usage easier by marking exceptions and defaulting the rest to the other type.
-
-### Examples
-
-Given a workspace `Cargo.toml` with these members:
-```toml
-[workspace]
-members = ["api", "cli", "core", "utils"]
-```
-
-- `cargo assemble` - Creates all missing members as binary packages
-- `cargo assemble --lib core utils` - Creates `core` and `utils` as libraries, `api` and `cli` as binaries
-- `cargo assemble --bin cli` - Creates `cli` as a binary, others as libraries
+`cargo-assemble` eliminates this tedious workflow by creating missing member packages on demand from the workspace `Cargo.toml`. Once the workspace members are defined, run `cargo assemble`, and see it smart-generate the missing crates as either `bin` or `lib`, depending on the flags used.
 
 ## Installation
 
-To install the latest published version from [crates.io](https://crates.io/crates/cargo-assemble):
+Install from [crates.io](https://crates.io/crates/cargo-assemble):
 
 ```sh
 cargo install cargo-assemble
 ```
 
-This builds and installs the `cargo-assemble` binary into Cargo's `bin` directory (typically `~/.cargo/bin`), making it available as a Cargo subcommand.
+This installs the binary to Cargo’s bin directory (`~/.cargo/bin` in most cases), making it available as a Cargo subcommand.
+
+## Usage
+
+**By default**, `cargo-assemble` creates all missing members as binary (`bin`) packages:
+
+```sh
+cargo assemble
+```
+
+### Controlling Package Types
+
+**Given**, an example workspace `Cargo.toml` that contains these members:
+
+```toml
+[workspace]
+members = ["server", "cmd", "core", "database", "auth"]
+```
+
+If specific members are flagged using the `--lib` (or `-l`) flag, they'll be created as library crates, and the rest default as binary crates:
+
+```sh
+cargo assemble --lib core utils
+```
+
+**However**, if some members are explicitly flagged using `--bin` (or `-b`), they'll be created as binary crates, and the remaining members shall be library crates for ease of use:
+
+```sh
+cargo assemble --bin server cmd
+```
+
+**In a nutshell**,
+
+* `cargo assemble` → Missing members in the directory are (all) created as `bin` crates.
+* `cargo assemble --lib core database auth` → `core`, `database`, and `auth` are created as `lib` crates; `server` and `cmd` as `bin` crates.
+* `cargo assemble --bin cmd` → `cmd` is created as a `bin` crate; the rest (`server`, `core`, etc.) as `lib` crates.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](LICENSE).
